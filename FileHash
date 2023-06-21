@@ -1,0 +1,27 @@
+import hashlib
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
+
+def calculate_sha256(file_path):
+    sha256_hash = hashlib.sha256()
+
+    with open(file_path, 'rb') as file:
+        for chunk in iter(lambda: file.read(4096), b''):
+            sha256_hash.update(chunk)
+
+    file_hash = sha256_hash.hexdigest()
+    return file_hash
+
+# Create a Tkinter root window
+root = Tk()
+root.withdraw()
+
+# Prompt the user to select a file using the file dialog
+file_path = askopenfilename(title="Select a file")
+
+# Calculate the SHA-256 hash if a file is selected
+if file_path:
+    hash_value = calculate_sha256(file_path)
+    print("SHA-256 Hash:", hash_value)
+else:
+    print("No file selected.")
